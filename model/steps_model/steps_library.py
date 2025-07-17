@@ -24,7 +24,7 @@ class StepsLibrary:
 
                 # Находим все классы-наследники Step
                 for name, obj in inspect.getmembers(module, inspect.isclass):
-                    if issubclass(obj, Step) and obj is not Step:
+                    if issubclass(obj, Step) :
                         self._classes[name] = obj
                         if hasattr(obj, 'type_of_step'):
                             self._add_to_type_index(obj, name)
@@ -56,19 +56,19 @@ class StepsLibrary:
         if class_name not in self._classes:
             raise ValueError(f"Class '{class_name}' not found")
 
-        sig = inspect.signature(self._classes[class_name].__init__)
-        params = {
-            name: {
-                'type': param.annotation.__name__
-                if param.annotation != inspect.Parameter.empty
-                else 'any',
-                'default': param.default
-            }
-            for name, param in sig.parameters.items()
-            if name not in ['self', 'args', 'kwargs']
-               and param.default != inspect.Parameter.empty
-        }
-        return json.dumps(params, indent=2, ensure_ascii=False)
+        signature = inspect.signature(self._classes[class_name].__init__)
+        parameters = {}
+
+        for name, param in signature.parameters.items():
+            # Пропускаем служебные параметры
+            if name in ['self', 'args', 'kwargs']:
+                continue
+
+            # Добавляем только параметры с умолчательными значениями
+            if param.default is not inspect.Parameter.empty:
+                parameters[name] = param.default
+
+        return parameters
 
     def create_instance(self, class_name: str, parameters_json: str = '{}') -> Step:
         """Создает экземпляр класса с заданными параметрами"""

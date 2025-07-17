@@ -6,6 +6,7 @@ library = StepsLibrary()
 # Получение информации
 print("Available steps:", library.get_class_names())
 print("Filter steps:", library.get_class_names_by_type("filter"))
+print(library.get_class_parameters("Step1"))
 
 # Создание и выполнение шага
 params = '{"threshold": 0.7}'
