@@ -24,7 +24,7 @@ class StepsLibrary:
 
                 # Находим все классы-наследники Step
                 for name, obj in inspect.getmembers(module, inspect.isclass):
-                    if issubclass(obj, Step) :
+                    if issubclass(obj, Step) and obj is not Step :
                         self._classes[name] = obj
                         if hasattr(obj, 'type_of_step'):
                             self._add_to_type_index(obj, name)
