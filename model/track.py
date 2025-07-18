@@ -1,5 +1,3 @@
-from matplotlib.font_manager import json_dump
-
 from steps_model import StepsLibrary, Step
 from settings import TYPES_OF_STEP, JSON_KEYS
 
