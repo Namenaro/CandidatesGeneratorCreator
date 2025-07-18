@@ -9,5 +9,5 @@ class Step1(Step):
     def __init__(self, threshold: float = 0.5):
         self.threshold = threshold
 
-    def run(self, signal):
+    def run(self, signal, left, right):
         return [x for x in signal if x > self.threshold]

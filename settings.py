@@ -13,5 +13,6 @@ TYPES_OF_STEP = SimpleNamespace(
 JSON_KEYS = SimpleNamespace(
     STEP_ID_IN_TRACK = 'step_id',
     STEP_CLASS_NAME = 'step_class',
-    STEP_ARGS = 'step_args'
+    STEP_ARGS = 'step_args',
+    TRACK_ID_IN_MULTITRACK = "track_id"
 )

@@ -16,18 +16,18 @@ class Track:
 
         self._steps_results:Optional[List[StepResult]] = None
 
-    def run(self, signal)->Optional[List[float]]:
+    def run(self, signal, left, right)->List[float]:
         self._steps_results = [] # Инициализируем список результатов
 
         for step in self.steps_list:
-            float_list = step.run(signal)
+            float_list = step.run(signal, left, right)
             is_signal = True if step.type_of_step is TYPES_OF_STEP.signal else False
             step_result = StepResult(float_list, is_signal)
             self._steps_results.append(step_result)
 
         if len(self.steps_results) == 0:
-            self._steps_results = None
-            return None
+            self._steps_results = []
+            return []
 
         if self.steps_list[-1].type_of_step is not TYPES_OF_STEP.candidates:
             raise RuntimeError("Последний шаг трека обязан возвращать координаты кандидатов")

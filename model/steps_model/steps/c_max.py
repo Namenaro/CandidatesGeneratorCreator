@@ -9,5 +9,5 @@ class GlobalMax(Step):
     def __init__(self):
         pass
 
-    def run(self, signal):
+    def run(self, signal, left, right):
         return max(signal)

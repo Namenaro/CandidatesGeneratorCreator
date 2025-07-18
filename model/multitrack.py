@@ -1,5 +1,5 @@
 from steps_model import StepsLibrary, Step
-from track import Track, StepResult
+from track import Track, StepResult, create_track_from_json
 from settings import TYPES_OF_STEP, JSON_KEYS
 
 from typing import List, Optional, Dict, Any
@@ -24,21 +24,32 @@ class MultitrackResult:
         """
         self.tracks_names_to_candidates[track_name] = track_candidates
 
-    def add_track_detailed_history(self, track_name:str, steps_names_to_results: Dict[str, List[StepResult]]):
+    def add_track_detailed_history(self, track_name:str, steps_results:List[StepResult]):
         """
         Для визуальной отладки: пошаговая история выполнения трека на этом сигнале
         :param track_name: id трека в мультитреке
-        :param steps_names_to_results: соответствие между именем шага в треке и результатов этого шага. Ключ - имя шага.
+        :param steps_results: список результатов, нумерация в котором совпадает с нумерацией имен шагов в Track
         """
-        self.tracks_names_to_lists_of_steps_results[track_name] = steps_names_to_results
+        self.tracks_names_to_lists_of_steps_results[track_name] = steps_results
 
-    def get_track_detailed_history(self, track_name:str)->Dict[str: List[StepResult]]:
+    def get_track_detailed_history(self, track_name:str)->List[StepResult]:
+        """ Получить для данного трека результаты каждого шага выполнения
+         этого трека, нумерация совпадает с нумерацией имен шагов в треке
+
+         :param track_name: id трека в мультитреке
+         """
         return self.tracks_names_to_lists_of_steps_results[track_name]
 
     def get_track_candidates(self, track_name:str)->List[float]:
         return self.tracks_names_to_candidates[track_name]
 
-    def get_all_candidates(self, epsilon=0.0001):
+    def get_all_candidates(self, epsilon=0.0001)->List[float]:
+        """
+        Получить кандидатов, получившихся выполнением всего мультитрека.
+        Производится удаление дублей (т.е. очень близких точек с точностью до эпсилон)
+        :param epsilon: расстояние в секундах, если точки на таком расстоянии, то считаются одной и той же точкой.
+        :return:
+        """
         # Собираем все элементы из всех списков в один
         all_values = []
         for candidates in self.tracks_names_to_candidates.values():
@@ -76,6 +87,27 @@ class MultiTrack:
             track = self.tracks[i]
             track_name = self.tracks_names[i]
 
+            candidate_coords = track.run(signal, left=left, right=right)
+
+            result.add_track_candidates(track_name, track_candidates=candidate_coords)
+            result.add_track_detailed_history(track_name, steps_results=track.steps_results)
+        return result
+
+
+
+
+def create_multitrack_from_json(data:Dict[str, Any], step_library:StepsLibrary) -> MultiTrack:
+    tracks_names = []
+    tracks = []
+
+    for track_name, track_data in data.items():
+        track = create_track_from_json(data=track_data, step_library=step_library)
+
+        tracks_names.append(track_name)
+        tracks.append(track)
+
+    multitrack = MultiTrack(tracks_names=tracks_names, tracks=tracks)
+    return multitrack
 
 
 
