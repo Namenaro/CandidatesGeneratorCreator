@@ -6,9 +6,10 @@ import pkgutil
 from .step import Step
 
 
+
 class StepsLibrary:
     def __init__(self):
-        """Автоматически загружает все шаги из steps_model.steps"""
+        """Автоматически загружает все шаги из step_constructor.steps"""
         self._classes: Dict[str, Type[Step]] = {}
         self._type_index: Dict[str, List[str]] = {}
         self._load_classes()
@@ -16,21 +17,26 @@ class StepsLibrary:
     def _load_classes(self) -> None:
         """Загружает все классы шагов из модулей в пакете steps"""
         try:
-            steps_pkg = importlib.import_module('steps_model.steps')
+            # Используем относительный импорт для загрузки пакета steps
+            from . import steps as steps_pkg
 
             # Получаем все подмодули в пакете steps
             for module_info in pkgutil.iter_modules(steps_pkg.__path__):
-                module = importlib.import_module(f'steps_model.steps.{module_info.name}')
+                # Используем относительный импорт для каждого модуля
+                module = importlib.import_module(f'.{module_info.name}',
+                                                 package=steps_pkg.__name__)
 
                 # Находим все классы-наследники Step
                 for name, obj in inspect.getmembers(module, inspect.isclass):
-                    if issubclass(obj, Step) and obj is not Step :
+                    if issubclass(obj, Step) and obj is not Step:
                         self._classes[name] = obj
                         if hasattr(obj, 'type_of_step'):
                             self._add_to_type_index(obj, name)
 
         except ImportError as e:
-            raise ImportError(f"Failed to load steps package: {e}")
+            raise ImportError(f"Failed to load steps package: {e}") from e
+        except Exception as e:
+            raise RuntimeError(f"Error while loading step classes: {e}") from e
 
     def _add_to_type_index(self, cls: Type[Step], class_name: str) -> None:
         """Добавляет класс в индекс по его типу"""
