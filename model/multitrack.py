@@ -1,8 +1,8 @@
-from steps_model import StepsLibrary, Step
-from track import Track, StepResult, create_track_from_json
-from settings import TYPES_OF_STEP, JSON_KEYS
+from steps_model import StepsLibrary
+from track import Track, create_track_from_json
 
-from typing import List, Optional, Dict, Any
+
+from typing import List, Dict, Any
 
 class MultitrackResult:
     """
@@ -12,8 +12,13 @@ class MultitrackResult:
      нужны для визуальной отладки при разработке новых мультитреков в редакторе.
     """
     def __init__(self):
+        # Какой трек каких координат-канждидатов вернул (порядок треков не важен, они все выполняются параллельно)
         self.tracks_names_to_candidates: Dict[str: List[float]] = {}
-        self.tracks_names_to_lists_of_steps_results: Dict[str: List[StepResult]] = {}
+
+        # Для каждого трека подробная история пошаговой маодификации сигнала
+        # в треке перед последним шагом взятия кандидатов. Каждому треку соотв.
+        # список сигналов в мВ, порядок соотв. порядку шагов
+        self.tracks_names_to_lists_of_steps_results: Dict[str: List[List[float]]] = {}
 
     def add_track_candidates(self, track_name:str, track_candidates:List[float]):
         """
@@ -24,15 +29,16 @@ class MultitrackResult:
         """
         self.tracks_names_to_candidates[track_name] = track_candidates
 
-    def add_track_detailed_history(self, track_name:str, steps_results:List[StepResult]):
+    def add_track_detailed_history(self, track_name:str, steps_results:List[List[float]]):
         """
         Для визуальной отладки: пошаговая история выполнения трека на этом сигнале
         :param track_name: id трека в мультитреке
-        :param steps_results: список результатов, нумерация в котором совпадает с нумерацией имен шагов в Track
+        :param steps_results: список модифицированных сигналов в мВ, нумерация в котором
+                совпадает с нумерацией имен шагов в Track
         """
         self.tracks_names_to_lists_of_steps_results[track_name] = steps_results
 
-    def get_track_detailed_history(self, track_name:str)->List[StepResult]:
+    def get_track_detailed_history(self, track_name:str)->List[List[float]]:
         """ Получить для данного трека результаты каждого шага выполнения
          этого трека, нумерация совпадает с нумерацией имен шагов в треке
 
@@ -41,6 +47,11 @@ class MultitrackResult:
         return self.tracks_names_to_lists_of_steps_results[track_name]
 
     def get_track_candidates(self, track_name:str)->List[float]:
+        """
+        Для трека получить список координат кандидатов, которые являются результатом выполнения трека
+        :param track_name: id трека в мультитреке
+        :return: список координат
+        """
         return self.tracks_names_to_candidates[track_name]
 
     def get_all_candidates(self, epsilon=0.0001)->List[float]:
@@ -48,7 +59,7 @@ class MultitrackResult:
         Получить кандидатов, получившихся выполнением всего мультитрека.
         Производится удаление дублей (т.е. очень близких точек с точностью до эпсилон)
         :param epsilon: расстояние в секундах, если точки на таком расстоянии, то считаются одной и той же точкой.
-        :return:
+        :return: список координат
         """
         # Собираем все элементы из всех списков в один
         all_values = []
@@ -87,10 +98,11 @@ class MultiTrack:
             track = self.tracks[i]
             track_name = self.tracks_names[i]
 
-            candidate_coords = track.run(signal, left=left, right=right)
+            # запускаем трек на выполнение (это обязательно перед запросом результатов, ведь пока их нет или они старые!)
+            track.fill_results(signal, left=left, right=right)
 
-            result.add_track_candidates(track_name, track_candidates=candidate_coords)
-            result.add_track_detailed_history(track_name, steps_results=track.steps_results)
+            result.add_track_candidates(track_name, track_candidates=track.get_candidates_coords())
+            result.add_track_detailed_history(track_name, steps_results=track.get_history_signal_changes())
         return result
 
 

@@ -51,7 +51,7 @@ class StepsLibrary:
             raise ValueError(f"Class '{class_name}' not found")
         return getattr(self._classes[class_name], 'comment', None)
 
-    def get_class_parameters(self, class_name: str) -> str:
+    def get_class_parameters(self, class_name: str):
         """Возвращает параметры конструктора в формате JSON"""
         if class_name not in self._classes:
             raise ValueError(f"Class '{class_name}' not found")
@@ -81,7 +81,8 @@ class StepsLibrary:
         except Exception as e:
             raise ValueError(f"Failed to create instance: {e}")
 
-    def run_step(self, class_name: str, signal: Any, parameters_json: str = '{}') -> Any:
+    def run_step(self, class_name: str, signal: Any, parameters_json: str, left:float, right:float) -> Any:
         """Создает и выполняет шаг"""
         instance = self.create_instance(class_name, parameters_json)
-        return instance.run(signal)
+        return instance.run(signal, left, right)
+
