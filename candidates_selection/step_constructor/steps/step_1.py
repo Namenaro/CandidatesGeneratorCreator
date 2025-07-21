@@ -11,4 +11,4 @@ class TestStepSignal(Step):
         self.threshold = threshold
 
     def run(self, signal, left, right):
-        return [-x for x in signal ]
+        return [x*self.threshold for x in signal ]

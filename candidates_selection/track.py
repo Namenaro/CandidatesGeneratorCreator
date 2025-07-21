@@ -28,7 +28,7 @@ class Track:
         # Если шагов более одного, то все кроме последнего - шаги модицикации сигнала
         if len(self.steps_list) > 1:
             prev_signal = signal
-            for step in self.steps_list[0:-2]:
+            for step in self.steps_list[0:-1]:
                 new_signal = step.run(prev_signal, left, right)
                 self.steps_signals.append(new_signal)
                 prev_signal = new_signal
