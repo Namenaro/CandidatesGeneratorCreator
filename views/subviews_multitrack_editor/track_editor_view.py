@@ -1,5 +1,5 @@
 
-from step_editor_view import StepTextRedactor
+from views.subviews_multitrack_editor.step_editor_view import StepTextRedactor
 import tkinter as tk
 from tkinter import ttk, messagebox
 from typing import List, Dict, Optional, Callable

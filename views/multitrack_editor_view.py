@@ -1,4 +1,4 @@
-from track_editor_view import TrackEditorView
+from views.subviews_multitrack_editor.track_editor_view import TrackEditorView
 
 import tkinter as tk
 from tkinter import ttk, messagebox, filedialog
