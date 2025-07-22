@@ -143,6 +143,21 @@ class MultitrackEditorView(tk.Frame):
 
     def save_multitrack(self):
         """Сохранить мультитрек в файл"""
+
+        # Проверяем уникальность имён треков
+        track_names = []
+        for i in range(self.notebook.index("end")):
+            tab_id = self.notebook.tabs()[i]
+            track_name = self.notebook.tab(tab_id, "text")
+            if track_name in track_names:
+                messagebox.showerror(
+                    "Ошибка сохранения",
+                    f"Найдены треки с одинаковыми именами: '{track_name}'\n"
+                    "Пожалуйста, переименуйте треки перед сохранением."
+                )
+                return
+            track_names.append(track_name)
+
         if not self.json_to_redact:
             self._save_as()
             return
