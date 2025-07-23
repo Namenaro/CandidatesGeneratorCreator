@@ -1,4 +1,4 @@
-from settings import SIGNAL_LINEWIDTH, MINOR_GRID_LINEWIDTH, MAJOR_GRID_LINEWITH, SIGNAL_COLOR, GRID_COLOR
+from settings import SIGNAL_LINEWIDTH, MINOR_GRID_LINEWIDTH, MAJOR_GRID_LINEWITH, SIGNAL_COLOR, GRID_COLOR, FREQUENCY
 import matplotlib
 matplotlib.use('TkAgg')  # Tkinter
 import numpy as np

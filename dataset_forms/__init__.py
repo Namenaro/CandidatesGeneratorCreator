@@ -1,1 +1,1 @@
-from .dataset_wrapper import DatasetWrapper
+from .dataset_wrapper import DatasetWrapper, POINTS_DATASET_JSON_KEYS
