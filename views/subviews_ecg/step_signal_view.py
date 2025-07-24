@@ -8,6 +8,7 @@ from interactive_manager import InteractiveManager
 
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.figure import Figure
+from typing import List
 
 
 
@@ -31,7 +32,17 @@ class StepSignalView(tk.Frame):
         self.canvas_widget.pack(fill=tk.BOTH, expand=True)
 
 
-    def plot(self, old_signal, new_signal,time, left, right, true):
+    def plot(self, old_signal:List[float], new_signal:List[float],time:List[float], left:float, right:float, true:float):
+        """
+
+        :param old_signal: сигнал до изменения, мВ
+        :param new_signal: сигнал после изменения, мВ
+        :param time: в секундах, оно одинаковое для обоих сигналов
+        :param left: левая граница временного интервала, в котором мультитрек будет искать кандидатов
+        :param right: левая граница временного интервала, в котором мультитрек будет искать кандидатов
+        :param true: правильный ответ, где находится точка, которую мы пытаемся поставить этим мультитреком, берется из датасета формы
+        :return:
+        """
         self.ax.clear()
 
         # рисуем старый и новый сигналы
@@ -53,7 +64,7 @@ class StepSignalView(tk.Frame):
                    ymin=0, ymax=1)
 
         # рисуем правильный ответ (где должна реально стоять целевая точка этого мультитрека)
-        self.ax.axvline(true, color='g', linestyle='--', alpha=0.7, picker=5)
+        self.ax.axvline(true, color='g', linestyle='--', alpha=0.5, picker=5)
 
         # Обновляем начальные границы после создания графика
         self.interactive.initial_xlim = self.ax.get_xlim()
