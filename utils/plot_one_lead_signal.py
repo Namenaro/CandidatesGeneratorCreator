@@ -5,7 +5,7 @@ import numpy as np
 import math
 
 
-def plot_lead_signal_to_ax(signal_mV, ax, Y_max=None, Y_min=None, time=None):
+def plot_lead_signal_to_ax(signal_mV, ax, Y_max=None, Y_min=None, time=None, color=None, alpha=None, linestyle='-'):
     """
     Отрисовка сигнала ЭКГ на стандартную миллиметровку (с большой и малой клеткой). Ось У - милливольты, ось Х - секунды
     Args:
@@ -22,6 +22,12 @@ def plot_lead_signal_to_ax(signal_mV, ax, Y_max=None, Y_min=None, time=None):
 
     if Y_min is None:
         Y_min = min(signal_mV) - 0.1
+
+    if color is None:
+        color = SIGNAL_COLOR
+
+    if alpha is None:
+        alpha = 0.6
 
     # Создаем маленькую сетку
     cell_time = 0.04  # Один миллметр по оси времени соотв. 0.04 секунды
@@ -70,10 +76,10 @@ def plot_lead_signal_to_ax(signal_mV, ax, Y_max=None, Y_min=None, time=None):
     ax.set_aspect(aspect)
 
     ax.plot(x, signal_mV,
-            linestyle='-',  # Сплошная линия
+            linestyle=linestyle,  # Сплошная линия или нет
             linewidth=SIGNAL_LINEWIDTH,  # Толщина линии
-            alpha=0.6,  # Полупрозрачная линия
-            color=SIGNAL_COLOR
+            alpha=alpha,
+            color=color
             # marker='o',  # Маркеры в виде кружков
             # markersize=line_width +0.1,  # Размер маркеров (диаметр кружков)
             # markerfacecolor='black',  # Цвет заливки маркеров
