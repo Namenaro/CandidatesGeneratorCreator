@@ -12,7 +12,7 @@ from typing import List
 
 
 
-class StepSignalView(tk.Frame):
+class CandidatesView(tk.Frame):
     """ Визуализирует кандатов в заданном интевале, показывает для сравнения и правильный ответ
     График интерактивен: есть зум колесиком мыши, перетаскивание, возфращение масщтаба при клике на правую кнопку мыши"""
     def __init__(self, master):
@@ -91,7 +91,7 @@ if __name__ == "__main__":
 
         # Создаем корневое окно
         root = tk.Tk()
-        entry_view = StepSignalView(root)
+        entry_view = CandidatesView(root)
         entry_view.pack(fill=tk.BOTH, expand=True, pady=10)
         left = points_dict["p1"]
         right = points_dict["p3"]
