@@ -39,7 +39,6 @@ class CandidatesView(tk.Frame):
 
 
     def plot(self, signal:List[float], time:List[float], left:float, right:float, true:float, candidates:List[float]):
-
         self.ax.clear()
 
         # рисуем сигнал
@@ -64,10 +63,8 @@ class CandidatesView(tk.Frame):
         for candidate in candidates:
             self.ax.axvline(candidate, color='r', linestyle='-', alpha=0.5, linewidth=0.7)
 
-
         # Перерисовываем холст
         self.canvas.draw()
-
 
 
     def _on_click(self, event):
