@@ -3,7 +3,7 @@ import tkinter as tk
 from step_signal_view import StepSignalView
 from candidates_view import CandidatesView
 
-from typing import List
+from typing import List, Optional
 
 class TrackView(tk.Frame):
     """ Визуализирует историю трека: первые несколько шагов это шаги типа "сигнал", последний шаг это шаг типа "кандидаты" """
@@ -11,6 +11,16 @@ class TrackView(tk.Frame):
     def __init__(self, master=None, **kwargs):
         super().__init__(master, **kwargs)
         self.steps_views = []
+
+        # Добавлено: Верхний фрейм с текстовым полем
+        self.top_frame = tk.Frame(self)
+        self.top_frame.pack(fill=tk.X, padx=5, pady=5)
+
+        self.text_label = tk.Label(self.top_frame, text="имя трека:")
+        self.text_label.pack(side=tk.LEFT)
+
+        self.text_field = tk.Entry(self.top_frame)
+        self.text_field.pack(side=tk.LEFT, fill=tk.X, expand=True, padx=5)
 
         # Создаем контейнер с прокруткой
         self.canvas = tk.Canvas(self)
@@ -40,7 +50,13 @@ class TrackView(tk.Frame):
         self.canvas.itemconfig("inner_frame", width=event.width)
 
 
-    def plot(self, left, right, true, time:List[float], old_signals:List[List[float]], new_signals:List[List[float]], final_candidates:List[float]):
+    def plot(self, left, right, true, time:List[float], old_signals:List[List[float]], new_signals:List[List[float]], final_candidates:List[float], description: Optional[str] = None):
+
+        # Установка текста описания
+        self.text_field.delete(0, tk.END)
+        if description:
+            self.text_field.insert(0, description)
+
         # Очищаем предыдущие графики
         for view in self.steps_views:
             view.destroy()
@@ -104,6 +120,6 @@ if __name__ == "__main__":
         root = tk.Tk()
         view = TrackView(root)
         view.pack(fill=tk.BOTH, expand=True, pady=10)
-        view.plot(left, right, true=true, time=time, old_signals=[signal, new_signal1], new_signals=[new_signal1, new_signal2], final_candidates=candidates )
+        view.plot(left, right, true=true, time=time, old_signals=[signal, new_signal1], new_signals=[new_signal1, new_signal2], final_candidates=candidates, description="имя трека" )
 
         root.mainloop()
