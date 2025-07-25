@@ -50,7 +50,20 @@ class TrackView(tk.Frame):
         self.canvas.itemconfig("inner_frame", width=event.width)
 
 
-    def plot(self, left, right, true, time:List[float], old_signals:List[List[float]], new_signals:List[List[float]], final_candidates:List[float], description: Optional[str] = None):
+    def plot(self, left:float, right:float, true:float, time:List[float], old_signals:List[List[float]], new_signals:List[List[float]], final_candidates:List[float], description: Optional[str] = None):
+        """
+
+        :param left: координата левой границы интервала поиска, в секундах
+        :param right: координата правой границы интервала поиска, в секундах
+        :param true: координата верного ответа, в секундах
+        :param time: моменты времени , их кол-во равно длине массивов old_signals[i], new_signals[i]
+        :param old_signals: если new_signals пустой, то old_signals содержит один элемент - исзодный
+            сигнал ЭКГ. Иначе  пара old_signals[i], new_signals[i] это входной и выходной сигнал для i-того шага типа "сигнал"
+        :param new_signals:  пара old_signals[i], new_signals[i] это входной и выходной сигнал для i-того шага типа "сигнал"
+        :param final_candidates: координаты кандидатов на последнем шаге трека
+        :param description: имя трека внутри мультитрека
+        :return:
+        """
 
         # Установка текста описания
         self.text_field.delete(0, tk.END)
@@ -67,7 +80,7 @@ class TrackView(tk.Frame):
             old_signal = old_signals[i]
             new_signal = new_signals[i]
             view = StepSignalView(self.inner_frame)
-            view.pack(fill=tk.X, expand=True, pady=5)
+            view.pack(side=tk.LEFT, fill=tk.Y, expand=True, padx=5)#view.pack(fill=tk.X, expand=True, pady=5)
 
             view.plot(old_signal=old_signal, new_signal=new_signal,time=time, left=left, right=right, true=true)
 
@@ -80,7 +93,7 @@ class TrackView(tk.Frame):
         else:
             last_signal = new_signals[-1]
         view = CandidatesView(self.inner_frame)
-        view.pack(fill=tk.X, expand=True, pady=5)
+        view.pack(side=tk.LEFT, fill=tk.Y, expand=True, padx=5)#view.pack(fill=tk.X, expand=True, pady=5)
 
         view.plot(signal=last_signal, time=time, left=left, right=right, true=true, candidates=final_candidates)
 
@@ -96,7 +109,7 @@ if __name__ == "__main__":
 
     file_path = filedialog.askopenfilename(
         title="Выберите файл",
-        filetypes=(("Все файлы", "*.*"), ("Текстовые файлы", "*.txt"))
+        filetypes=(("Все файлы", "*.*"), ("json файлы", "*.json"))
     )
 
     if file_path:
