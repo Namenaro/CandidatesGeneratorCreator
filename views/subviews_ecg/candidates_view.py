@@ -4,7 +4,7 @@ from utils import plot_lead_signal_to_ax
 
 import tkinter as tk
 
-from interactive_manager import InteractiveManager
+from plot_popup_manager import PlotPopupManager
 
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.figure import Figure
@@ -23,13 +23,19 @@ class CandidatesView(tk.Frame):
         # Создаем фигуру и оси
         self.fig = Figure()
         self.ax = self.fig.add_subplot(111)
-        self.interactive = InteractiveManager(self.ax)
+
 
 
         # Создаем холст для графика
         self.canvas = FigureCanvasTkAgg(self.fig, master=self)
         self.canvas_widget = self.canvas.get_tk_widget()
         self.canvas_widget.pack(fill=tk.BOTH, expand=True)
+
+        # Менеджер всплывающих окон
+        self.popup_manager = PlotPopupManager()
+
+        # Привязка обработчика кликов
+        self.canvas.mpl_connect('button_press_event', self._on_click)
 
 
     def plot(self, signal:List[float], time:List[float], left:float, right:float, true:float, candidates:List[float]):
@@ -58,16 +64,15 @@ class CandidatesView(tk.Frame):
         for candidate in candidates:
             self.ax.axvline(candidate, color='r', linestyle='-', alpha=0.5, linewidth=0.7)
 
-        # Обновляем начальные границы после создания графика
-        self.interactive.initial_xlim = self.ax.get_xlim()
-        self.interactive.initial_ylim = self.ax.get_ylim()
-        self.interactive.initial_center = (
-            (self.interactive.initial_xlim[0] + self.interactive.initial_xlim[1]) / 2,
-            (self.interactive.initial_ylim[0] + self.interactive.initial_ylim[1]) / 2
-        )
 
         # Перерисовываем холст
         self.canvas.draw()
+
+
+
+    def _on_click(self, event):
+        """Обработчик клика по графику"""
+        self.popup_manager.create_popup(self.master, self.ax)
 
 
 

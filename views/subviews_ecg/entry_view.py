@@ -1,5 +1,5 @@
 from utils import plot_lead_signal_to_ax
-from interactive_manager import InteractiveManager
+from plot_popup_manager import PlotPopupManager
 
 import tkinter as tk
 
@@ -18,12 +18,17 @@ class EntryView(tk.Frame):
         self.fig = Figure(figsize=(5, 3), dpi=100)
         self.ax = self.fig.add_subplot(111)
 
-        self.interactive = InteractiveManager(self.ax)  # Внедрение интерактивности
 
         # Создаем холст для графика
         self.canvas = FigureCanvasTkAgg(self.fig, master=self)
         self.canvas_widget = self.canvas.get_tk_widget()
         self.canvas_widget.pack(fill=tk.BOTH, expand=True)
+
+        # Менеджер всплывающих окон
+        self.popup_manager = PlotPopupManager()
+
+        # Привязка обработчика кликов
+        self.canvas.mpl_connect('button_press_event', self._on_click)
 
 
     def plot(self, entry_signal, time, entry_points_pict):
@@ -32,13 +37,6 @@ class EntryView(tk.Frame):
         self.plot_signal( entry_signal, time)
         self.plot_points(entry_points_pict)
 
-        # Обновляем начальные границы после создания графика
-        self.interactive.initial_xlim = self.ax.get_xlim()
-        self.interactive.initial_ylim = self.ax.get_ylim()
-        self.interactive.initial_center = (
-            (self.interactive.initial_xlim[0] + self.interactive.initial_xlim[1]) / 2,
-            (self.interactive.initial_ylim[0] + self.interactive.initial_ylim[1]) / 2
-        )
 
         # Перерисовываем холст
         self.canvas.draw()
@@ -55,6 +53,10 @@ class EntryView(tk.Frame):
                 ha='center', va='top', color='r',
                 bbox=dict(facecolor='white', alpha=0.7)
             )
+
+    def _on_click(self, event):
+        """Обработчик клика по графику"""
+        self.popup_manager.create_popup(self.master, self.ax)
 
 if __name__ == "__main__":
     from tkinter import filedialog
