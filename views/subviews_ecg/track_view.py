@@ -47,7 +47,9 @@ class TrackView(tk.Frame):
         self.canvas.configure(scrollregion=self.canvas.bbox("all"))
 
     def _on_canvas_configure(self, event):
-        self.canvas.itemconfig("inner_frame", width=event.width)
+        # Оставляем только вертикальное масштабирование
+        if event.height != self.canvas.winfo_height():
+            self.canvas.itemconfig("inner_frame", height=event.height)
 
 
     def plot(self, left:float, right:float, true:float, time:List[float], old_signals:List[List[float]], new_signals:List[List[float]], final_candidates:List[float], description: Optional[str] = None):
@@ -80,7 +82,7 @@ class TrackView(tk.Frame):
             old_signal = old_signals[i]
             new_signal = new_signals[i]
             view = StepSignalView(self.inner_frame)
-            view.pack(side=tk.LEFT, fill=tk.Y, expand=True, padx=5)#view.pack(fill=tk.X, expand=True, pady=5)
+            view.pack(side=tk.LEFT, fill=tk.Y, expand=False, padx=5)#view.pack(fill=tk.X, expand=True, pady=5)
 
             view.plot(old_signal=old_signal, new_signal=new_signal,time=time, left=left, right=right, true=true)
 
@@ -126,6 +128,7 @@ if __name__ == "__main__":
 
         new_signal1 = [x * 1.5 for x in signal]
         new_signal2 = [x * 0.4-0.2 for x in signal]
+        new_signal3 = [x * 0.4 - 0.4 for x in signal]
 
         candidates = [left + 0.1 * (right - left), left + 0.2 * (right - left), left + 0.7 * (right - left)]
 
@@ -133,6 +136,6 @@ if __name__ == "__main__":
         root = tk.Tk()
         view = TrackView(root)
         view.pack(fill=tk.BOTH, expand=True, pady=10)
-        view.plot(left, right, true=true, time=time, old_signals=[signal, new_signal1], new_signals=[new_signal1, new_signal2], final_candidates=candidates, description="имя трека" )
+        view.plot(left, right, true=true, time=time, old_signals=[signal, new_signal1, new_signal2], new_signals=[new_signal1, new_signal2,new_signal3], final_candidates=candidates, description="имя трека" )
 
         root.mainloop()

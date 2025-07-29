@@ -21,7 +21,7 @@ class StepSignalView(tk.Frame):
         self.configure(bg='white', padx=5, pady=5)
 
         # Создаем фигуру и оси
-        self.fig = Figure()
+        self.fig = Figure(figsize=(3, 3))
         self.ax = self.fig.add_subplot(111)
 
         # Создаем холст для графика
