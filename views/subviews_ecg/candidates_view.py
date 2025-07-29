@@ -4,7 +4,7 @@ from utils import plot_lead_signal_to_ax
 
 import tkinter as tk
 
-from plot_popup_manager import PlotPopupManager
+from views.subviews_ecg.plot_popup_manager import PlotPopupManager
 
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.figure import Figure
@@ -21,7 +21,7 @@ class CandidatesView(tk.Frame):
         self.configure(bg='white', padx=5, pady=5)
 
         # Создаем фигуру и оси
-        self.fig = Figure()
+        self.fig = Figure(figsize=(6, 4))
         self.ax = self.fig.add_subplot(111)
 
 

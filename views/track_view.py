@@ -1,7 +1,7 @@
 import tkinter as tk
 
-from step_signal_view import StepSignalView
-from candidates_view import CandidatesView
+from views.subviews_ecg.step_signal_view import StepSignalView
+from views.subviews_ecg.candidates_view import CandidatesView
 
 from typing import List, Optional
 
