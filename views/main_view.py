@@ -144,7 +144,7 @@ class MainView(tk.Frame):
 
         try:
             # Пытаемся загрузить текст из файла
-            with open('documentation.txt', 'r', encoding='utf-8') as file:
+            with open('../documentation.txt', 'r', encoding='utf-8') as file:
                 content = file.read()
         except FileNotFoundError:
             content = "Файл документации не найден\nСоздайте файл documentation.txt в корне проекта"
