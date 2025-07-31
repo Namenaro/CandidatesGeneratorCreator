@@ -1,11 +1,9 @@
-
 import tkinter as tk
 from tkinter import ttk, scrolledtext
 
 from views.multitrack_editor_view import MultitrackEditorView
 from views.multitrack_result_view import MultitrackResultView
 from views.track_view import TrackView
-
 
 
 class MainView(tk.Frame):
@@ -15,10 +13,10 @@ class MainView(tk.Frame):
         self.get_steps_types_names = get_steps_types_names
         self.get_step_dict_by_type_name = get_step_dict_by_type_name
 
-        self.create_menu()
-        self.create_widgets()
+        self._create_menu()
+        self._create_widgets()
 
-    def create_widgets(self):
+    def _create_widgets(self):
         # Создаем PanedWindow с начальным соотношением ширины 40:60
         self.paned = tk.PanedWindow(self, orient=tk.HORIZONTAL, sashrelief=tk.RAISED, sashwidth=5)
         self.paned.pack(fill=tk.BOTH, expand=True)
@@ -32,12 +30,12 @@ class MainView(tk.Frame):
         self.paned.add(right_panel, minsize=300)  # Оставшиеся 60%
 
         # Настраиваем левую панель
-        self.setup_left_panel(left_panel)
+        self._setup_left_panel(left_panel)
 
         # Настраиваем правую панель
-        self.setup_right_panel(right_panel)
+        self._setup_right_panel(right_panel)
 
-    def setup_left_panel(self, panel):
+    def _setup_left_panel(self, panel):
         panel.grid_rowconfigure(2, weight=1)
         panel.grid_columnconfigure(0, weight=1)
 
@@ -64,7 +62,8 @@ class MainView(tk.Frame):
         self.text_example_info.insert(tk.END, "Информация о примере:")
 
         # MultitrackEditorView
-        self.multitrack_editor = MultitrackEditorView(panel, get_steps_types_names= self.get_steps_types_names, get_step_dict_by_type_name=self.get_step_dict_by_type_name)
+        self.multitrack_editor = MultitrackEditorView(panel, get_steps_types_names=self.get_steps_types_names,
+                                                      get_step_dict_by_type_name=self.get_step_dict_by_type_name)
         self.multitrack_editor.grid(row=2, column=0, sticky="nsew")
 
         # Кнопка "Сохранить и запустить"
@@ -77,7 +76,7 @@ class MainView(tk.Frame):
         )
         self.save_button.grid(row=3, column=0, sticky="ew", pady=(5, 0))
 
-    def setup_right_panel(self, panel):
+    def _setup_right_panel(self, panel):
         panel.grid_rowconfigure(0, weight=1)
         panel.grid_rowconfigure(1, weight=1)
         panel.grid_columnconfigure(0, weight=1)
@@ -100,9 +99,7 @@ class MainView(tk.Frame):
         )
         self.next_button.grid(row=2, column=0, sticky="ew", pady=(5, 0))
 
-
-
-    def create_menu(self):
+    def _create_menu(self):
         # Создаем главное меню
         menubar = tk.Menu(self.master)
         self.master.config(menu=menubar)
@@ -118,16 +115,15 @@ class MainView(tk.Frame):
         )
         file_menu.add_command(
             label="Документация",
-            command=self.on_show_docs
+            command=self._on_show_docs
         )
-
 
     def on_run_test(self):
         """Обработчик запуска теста мультитрека"""
         print("Запуск теста мультитрека...")
         # Здесь будет логика запуска теста
 
-    def on_show_docs(self):
+    def _on_show_docs(self):
         """Обработчик показа документации в новом окне"""
         doc_window = tk.Toplevel(self.master)
         doc_window.title("Документация")
@@ -183,7 +179,6 @@ class MainView(tk.Frame):
         print("Кнопка 'Следующий образец' нажата")
 
 
-
 if __name__ == "__main__":
     def demo_get_steps_types_names():
         return ["Старт", "Движение", "Остановка", "Поворот", "Ожидание"]
@@ -209,7 +204,8 @@ if __name__ == "__main__":
     root.geometry(f"{screen_width - 100}x{screen_height - 100}+0+0")
     root.state('zoomed')
 
-    main_view = MainView(master=root, get_steps_types_names=demo_get_steps_types_names, get_step_dict_by_type_name=demo_get_step_dict_by_type_name)
+    main_view = MainView(master=root, get_steps_types_names=demo_get_steps_types_names,
+                         get_step_dict_by_type_name=demo_get_step_dict_by_type_name)
     main_view.pack(fill="both", expand=True)
 
     root.mainloop()
