@@ -1,14 +1,11 @@
 import tkinter as tk
 from tkinter import ttk
 
-from views.main_view import MainView
+
 
 if __name__ == "__main__":
-    root = tk.Tk()
-    root.title("Редактор мультирека")
-    root.geometry("800x600")
-
-    main_view = MainView(root)
-    main_view.pack(fill="both", expand=True)
-
-    root.mainloop()
+    # запрашиваем пути к файлу мультитрека и датасета формы multitrack_filename, form_dataset_filename, indices_in_dataset
+    # создаем модель, передавая ей эти multitrack_filename, form_dataset_filename, indices_in_dataset
+    # создаем контроллер и передаем ему модель
+    # контроллер внутри себя создает мейн-вью приложения и запускает его.
+    pass
