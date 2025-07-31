@@ -68,10 +68,11 @@ class MainView(tk.Frame):
         self.multitrack_editor.grid(row=2, column=0, sticky="nsew")
 
         # Кнопка "Сохранить и запустить"
-        self.save_button = ttk.Button(
+        self.save_button = tk.Button(
             panel,
             text="Сохранить и запустить",
-            style="Green.TButton",
+            bg="#98FB98",  # Бледно-зелёный (PaleGreen)
+            fg="black",  # Цвет текста - черный
             command=self.on_save_and_run
         )
         self.save_button.grid(row=3, column=0, sticky="ew", pady=(5, 0))
@@ -90,18 +91,16 @@ class MainView(tk.Frame):
         self.multitrack_result.grid(row=1, column=0, sticky="nsew")
 
         # Кнопка "Следующий образец"
-        self.next_button = ttk.Button(
+        self.next_button = tk.Button(
             panel,
             text="Следующий образец",
-            style="Blue.TButton",
+            bg="#189198",
+            fg="black",  # Цвет текста - черный
             command=self.on_next_sample
         )
         self.next_button.grid(row=2, column=0, sticky="ew", pady=(5, 0))
 
-        # Стили для кнопок
-        style = ttk.Style()
-        style.configure("Green.TButton", background="green", foreground="white")
-        style.configure("Blue.TButton", background="blue", foreground="white")
+
 
     def create_menu(self):
         # Создаем главное меню
