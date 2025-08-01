@@ -7,11 +7,15 @@ from views.track_view import TrackView
 
 
 class MainView(tk.Frame):
-    def __init__(self, get_steps_types_names, get_step_dict_by_type_name, master=None, **kwargs):
+    def __init__(self, save_and_run, next_entry, get_steps_types_names, get_step_dict_by_type_name, json_to_redact:str, master=None, **kwargs):
         super().__init__(master, **kwargs)
 
         self.get_steps_types_names = get_steps_types_names
         self.get_step_dict_by_type_name = get_step_dict_by_type_name
+        self.save_and_run = save_and_run
+        self.next_entry = next_entry
+
+        self.json_to_redact = json_to_redact
 
         self._create_menu()
         self._create_widgets()
@@ -62,7 +66,7 @@ class MainView(tk.Frame):
         self.text_example_info.insert(tk.END, "Информация о примере:")
 
         # MultitrackEditorView
-        self.multitrack_editor = MultitrackEditorView(panel, get_steps_types_names=self.get_steps_types_names,
+        self.multitrack_editor = MultitrackEditorView(panel, json_to_redact=self.json_to_redact, get_steps_types_names=self.get_steps_types_names,
                                                       get_step_dict_by_type_name=self.get_step_dict_by_type_name)
         self.multitrack_editor.grid(row=2, column=0, sticky="nsew")
 
@@ -72,7 +76,7 @@ class MainView(tk.Frame):
             text="Сохранить и запустить",
             bg="#98FB98",  # Бледно-зелёный (PaleGreen)
             fg="black",  # Цвет текста - черный
-            command=self.on_save_and_run
+            command=self.save_and_run
         )
         self.save_button.grid(row=3, column=0, sticky="ew", pady=(5, 0))
 
@@ -95,7 +99,7 @@ class MainView(tk.Frame):
             text="Следующий образец",
             bg="#189198",
             fg="black",  # Цвет текста - черный
-            command=self.on_next_sample
+            command=self.next_entry
         )
         self.next_button.grid(row=2, column=0, sticky="ew", pady=(5, 0))
 
@@ -172,11 +176,6 @@ class MainView(tk.Frame):
         self.text_example_info.insert(tk.END, info)
         self.text_example_info.config(state=tk.DISABLED)
 
-    def on_save_and_run(self):
-        print("Кнопка 'Сохранить и запустить' нажата")
-
-    def on_next_sample(self):
-        print("Кнопка 'Следующий образец' нажата")
 
 
 if __name__ == "__main__":

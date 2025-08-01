@@ -7,7 +7,7 @@ from typing import List, Dict, Callable, Optional
 
 
 class MultitrackEditorView(tk.Frame):
-    def __init__(self, master,
+    def __init__(self, master, json_to_redact:str,
                  get_steps_types_names: Callable[[], List[str]],
                  get_step_dict_by_type_name: Callable[[str], Dict],
                  **kwargs):
@@ -15,7 +15,7 @@ class MultitrackEditorView(tk.Frame):
 
         self.get_steps_types_names = get_steps_types_names
         self.get_step_dict_by_type_name = get_step_dict_by_type_name
-        self.json_to_redact = None
+        self.json_to_redact  = json_to_redact
 
         # Основные элементы интерфейса
         self.notebook = ttk.Notebook(self)
@@ -49,10 +49,11 @@ class MultitrackEditorView(tk.Frame):
 
         self.save_btn = ttk.Button(
             self.control_panel,
-            text="Сохранить мультитрек",
-            command=self.save_multitrack
+            text="Сохранить как",
+            command=self._save_as
         )
         self.save_btn.pack(side="right", padx=2)
+        self.load_json_multitrack(self.json_to_redact)
 
     def add_new_track(self, track_name: str = "Новый трек", steps: Optional[List[Dict]] = None):
         """Добавить новый трек с заданным именем и шагами"""
@@ -166,7 +167,7 @@ class MultitrackEditorView(tk.Frame):
             data = self._get_multitrack_data()
             with open(self.json_to_redact, 'w', encoding='utf-8') as f:
                 json.dump(data, f, ensure_ascii=False, indent=4)
-            messagebox.showinfo("Сохранение", "Мультитрек успешно сохранён")
+            #messagebox.showinfo("Сохранение", "Мультитрек успешно сохранён")
         except Exception as e:
             messagebox.showerror("Ошибка", f"Не удалось сохранить файл:\n{str(e)}")
 
@@ -229,9 +230,16 @@ class MultitrackEditorView(tk.Frame):
         y = (dialog.winfo_screenheight() // 2) - (height // 2)
         dialog.geometry(f'+{x}+{y}')
 
+    def get_current_track_name(self):
+        current_tab_index = self.notebook.index("current")  # получаем индекс текущей вкладки
+        tab_text = self.notebook.tab(current_tab_index, "text")  # получаем текст вкладки
+        return tab_text
 
 # Пример использования
 if __name__ == "__main__":
+    from paths import PATH_TO_MULTITRACKS, PATH_TO_FORMS_DATASETS
+    import easygui
+
     def demo_get_steps_types_names():
         return ["Старт", "Движение", "Остановка", "Поворот", "Ожидание"]
 
@@ -255,7 +263,8 @@ if __name__ == "__main__":
     editor = MultitrackEditorView(
         root,
         get_steps_types_names=demo_get_steps_types_names,
-        get_step_dict_by_type_name=demo_get_step_dict_by_type_name
+        get_step_dict_by_type_name=demo_get_step_dict_by_type_name,
+        json_to_redact=easygui.fileopenbox(title="Выберите файл для редактированя", default=PATH_TO_MULTITRACKS + "/*")
     )
     editor.pack(fill="both", expand=True)
 
