@@ -1,5 +1,6 @@
 
 from views.subviews_multitrack_editor.step_editor_view import StepTextRedactor
+from settings import JSON_KEYS
 import tkinter as tk
 from tkinter import ttk, messagebox
 from typing import List, Dict, Optional, Callable
@@ -155,7 +156,10 @@ class TrackEditorView(tk.Frame):
                 raise ValueError("Не выбран тип шага")
 
             # Получаем словарь для нового шага
-            step_data = self.get_step_dict_by_type_name(step_type)
+            step_params = self.get_step_dict_by_type_name(step_type)
+            step_data = {}
+            step_data[JSON_KEYS.STEP_CLASS_NAME] = step_type
+            step_data[JSON_KEYS.STEP_ARGS] = step_params
 
             dialog.destroy()
             self.add_new_step(step_data, position)

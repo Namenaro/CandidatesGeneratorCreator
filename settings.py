@@ -9,7 +9,7 @@ TYPES_OF_STEP = SimpleNamespace(
     signal='signal'
 )
 
-# ключи json
+
 JSON_KEYS = SimpleNamespace(
     STEP_ID_IN_TRACK = 'step_id',
     STEP_CLASS_NAME = 'step_class',

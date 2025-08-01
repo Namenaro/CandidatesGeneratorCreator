@@ -75,8 +75,8 @@ class Model:
 
     def get_signals_history_for_track(self, track_name:str):
         signals_history = self.results.get_track_detailed_history(track_name=track_name)
-        if len(signals_history)==1:
-            old_signals = signals_history
+        if len(signals_history)==0:
+            old_signals = [self.signal]
             new_signals = []
         else:
             old_signals = signals_history[:-1]

@@ -55,7 +55,7 @@ class MultitrackEditorView(tk.Frame):
         self.save_btn.pack(side="right", padx=2)
         self.load_json_multitrack(self.json_to_redact)
 
-    def add_new_track(self, track_name: str = "Новый трек", steps: Optional[List[Dict]] = None):
+    def add_new_track(self, track_name: str = "new track", steps: Optional[List[Dict]] = None):
         """Добавить новый трек с заданным именем и шагами"""
         if steps is None:
             steps = []

@@ -14,11 +14,13 @@ class Controller:
         self.main_view.pack(fill="both", expand=True)
         self.main_view.reset_multitrack_info(self.model.multitrack_filename)
 
-        self.entry_i = 0
+        self.entry_i = -1
         self.max_i = len(self.model.indices)-1
 
 
     def save_and_run(self):
+        if self.entry_i<0:
+            self.next_entry()
         # сохраняем все содержимое редактора в редактируемый в этой сессии файл
         self.main_view.multitrack_editor.save_multitrack()
 
@@ -28,6 +30,7 @@ class Controller:
 
         # отрисовывем историю текущего трека
         current_track_name = self.main_view.multitrack_editor.get_current_track_name()
+
         old_signals, new_signals = self.model.get_signals_history_for_track(current_track_name)
         final_candidates = self.model.get_final_candidates_for_track(current_track_name)
         left, right, true = self.model.get_left_right_true_coords()

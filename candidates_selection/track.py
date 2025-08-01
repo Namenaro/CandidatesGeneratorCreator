@@ -69,7 +69,7 @@ def create_track_from_json(data:List[Dict[str, Any]], step_library:StepsLibrary)
         # аргументы в конструктор шага
         args = step_description[JSON_KEYS.STEP_ARGS]
 
-        step_obj = step_library.create_instance(class_name=class_name, parameters_json=args)
+        step_obj = step_library.create_instance(class_name=class_name, parameters_json=str(args))
         steps_list.append(step_obj)
 
     track = Track(steps_list=steps_list, steps_names=steps_names)

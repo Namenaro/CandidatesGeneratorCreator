@@ -82,6 +82,7 @@ class StepsLibrary:
             raise ValueError(f"Class '{class_name}' not found")
 
         try:
+            parameters_json =  parameters_json.replace("'", '"')
             params = json.loads(parameters_json)
             return self._classes[class_name](**params)
         except Exception as e:

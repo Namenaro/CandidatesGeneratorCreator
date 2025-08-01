@@ -18,5 +18,11 @@ def examples_steps():
     print("результат выполнения шага ", obj.run([0, 1, 2, 3, 4, 5, 3, 2], 2 / 500, 5 / 500))
     print("тип шага ", obj.type_of_step)
 
+    # Пример создания и выполнения шага
+    params = '{}'
+    obj = library.create_instance('GlobalMax', params)
+    print("результат выполнения шага ", obj.run([0, 1, 2, 3, 4, 5, 3, 2], 2 / 500, 5 / 500))
+    print("тип шага ", obj.type_of_step)
+
 if __name__ == "__main__":
     examples_steps()
