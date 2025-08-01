@@ -16,5 +16,15 @@ if __name__ == "__main__":
 
     model = Model(multitrack_filename=multitrack_filename, form_dataset_filename=form_dataset_filename, indices_in_dataset=indices_in_dataset)
 
-    controller = Controller(model)
-    controller.run()
+    root = tk.Tk()
+    root.title("Анализ мультитреков")
+
+    # Устанавливаем окно в максимальный размер
+    screen_width = root.winfo_screenwidth()
+    screen_height = root.winfo_screenheight()
+    root.geometry(f"{screen_width - 100}x{screen_height - 100}+0+0")
+    root.state('zoomed')
+
+
+    controller = Controller(model, root)
+    root.mainloop()
