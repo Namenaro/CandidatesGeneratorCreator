@@ -1,4 +1,4 @@
-from step_constructor import StepsLibrary, Step
+from candidates_selection.step_constructor import StepsLibrary, Step
 from settings import TYPES_OF_STEP, JSON_KEYS
 
 from typing import List, Dict, Any

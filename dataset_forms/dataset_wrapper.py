@@ -24,7 +24,7 @@ class DatasetWrapper:
     def __len__(self):
         return len(self.entries_list)
 
-    def get_ith_entry(self, i):
+    def get_ith_entry(self, i)->Dict:
         return self.entries_list[i]
 
     def del_ith_entry(self, i):

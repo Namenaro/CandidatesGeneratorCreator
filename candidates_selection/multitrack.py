@@ -1,9 +1,9 @@
-from step_constructor import StepsLibrary
-from track import Track, create_track_from_json
+from candidates_selection.step_constructor import StepsLibrary
+from candidates_selection.track import Track, create_track_from_json
 
 
 from typing import List, Dict, Any
-from multitrack_results import MultitrackResult
+from candidates_selection.multitrack_results import MultitrackResult
 
 
 
