@@ -1,5 +1,5 @@
 import tkinter as tk
-from tkinter import ttk
+
 
 from model import Model
 from controller import Controller

@@ -18,7 +18,7 @@ class CandidatesView(tk.Frame):
     def __init__(self, master):
         super().__init__(master)
 
-        self.configure(bg='white', padx=5, pady=5)
+        self.configure(bg='blue', padx=5, pady=5)
 
         # Создаем фигуру и оси
         self.fig = Figure(figsize=(6, 4))
