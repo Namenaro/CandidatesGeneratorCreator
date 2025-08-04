@@ -7,13 +7,14 @@ from views.track_view import TrackView
 
 
 class MainView(tk.Frame):
-    def __init__(self, save_and_run, next_entry, get_steps_types_names, get_step_dict_by_type_name, json_to_redact:str, master=None, **kwargs):
+    def __init__(self, save_and_run, next_entry, prev_entry, get_steps_types_names, get_step_dict_by_type_name, json_to_redact:str, master=None, **kwargs):
         super().__init__(master, **kwargs)
 
         self.get_steps_types_names = get_steps_types_names
         self.get_step_dict_by_type_name = get_step_dict_by_type_name
         self.save_and_run = save_and_run
         self.next_entry = next_entry
+        self.prev_entry = prev_entry
 
         self.json_to_redact = json_to_redact
 
@@ -84,24 +85,35 @@ class MainView(tk.Frame):
         panel.grid_rowconfigure(0, weight=1)
         panel.grid_rowconfigure(1, weight=1)
         panel.grid_columnconfigure(0, weight=1)
+        panel.grid_columnconfigure(1, weight=1)  # Добавляем вторую колонку
 
         # TrackView
         self.track_view = TrackView(panel)
-        self.track_view.grid(row=0, column=0, sticky="nsew")
+        self.track_view.grid(row=0, column=0, columnspan=2, sticky="nsew")  # Занимает обе колонки
 
         # MultitrackResultView
         self.multitrack_result = MultitrackResultView(panel)
-        self.multitrack_result.grid(row=1, column=0, sticky="nsew")
+        self.multitrack_result.grid(row=1, column=0, columnspan=2, sticky="nsew")  # Занимает обе колонки
+
+        # Кнопка "Предыдущий образец"
+        self.prev_button = tk.Button(
+            panel,
+            text="Предыдущий образец",
+            bg="#189198",
+            fg="black",
+            command=self.prev_entry  # Убедитесь, что у вас есть этот метод
+        )
+        self.prev_button.grid(row=2, column=0, sticky="ew", pady=(5, 0), padx=(0, 2.5))
 
         # Кнопка "Следующий образец"
         self.next_button = tk.Button(
             panel,
             text="Следующий образец",
             bg="#189198",
-            fg="black",  # Цвет текста - черный
+            fg="black",
             command=self.next_entry
         )
-        self.next_button.grid(row=2, column=0, sticky="ew", pady=(5, 0))
+        self.next_button.grid(row=2, column=1, sticky="ew", pady=(5, 0), padx=(2.5, 0))
 
     def _create_menu(self):
         # Создаем главное меню

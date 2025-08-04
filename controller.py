@@ -11,7 +11,8 @@ class Controller:
                                   get_steps_types_names=self.model.get_steps_types_names,
                                 get_step_dict_by_type_name=self.model.get_step_dict_by_type_name,
                                   save_and_run=self.save_and_run,
-                                  next_entry = self.next_entry)
+                                  next_entry = self.next_entry,
+                                  prev_entry=self.prev_entry)
 
         self.main_view.pack(fill="both", expand=True)
         self.main_view.reset_multitrack_info(self.model.multitrack_filename)
@@ -65,6 +66,16 @@ class Controller:
             return
 
         self.entry_i +=1
+        index_in_dataset = self.model.indices[self.entry_i]
+        self.model.reset_entry(index_in_dataset)
+        self.main_view.reset_example_info(f"номер запаси {index_in_dataset}")
+
+
+    def prev_entry(self):
+        if self.entry_i <= 0:
+            return
+
+        self.entry_i -=1
         index_in_dataset = self.model.indices[self.entry_i]
         self.model.reset_entry(index_in_dataset)
         self.main_view.reset_example_info(f"номер запаси {index_in_dataset}")
