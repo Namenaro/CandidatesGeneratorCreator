@@ -31,11 +31,32 @@ class CandidatesView(tk.Frame):
         self.canvas_widget = self.canvas.get_tk_widget()
         self.canvas_widget.pack(fill=tk.BOTH, expand=True)
 
+
+
         # Менеджер всплывающих окон
         self.popup_manager = PlotPopupManager()
 
         # Привязка обработчика кликов
         self.canvas.mpl_connect('button_press_event', self._on_click)
+
+        # Отключаем стандартную обработку прокрутки
+        self.canvas_widget.unbind_all("<MouseWheel>")
+        self.canvas_widget.unbind_all("<Shift-MouseWheel>")
+
+        # Перенаправляем события прокрутки
+        self.canvas_widget.bind("<MouseWheel>", self._handle_mousewheel)
+        self.canvas_widget.bind("<Shift-MouseWheel>", self._handle_mousewheel)
+
+    def _handle_mousewheel(self, event):
+        """Перенаправляет события прокрутки"""
+        # Ищем родительский TrackView вверх по иерархии
+        parent = self.master
+        while parent:
+            if hasattr(parent, '_on_mousewheel_handler'):
+                parent._on_mousewheel_handler(event)
+                break
+            parent = getattr(parent, 'master', None)
+        return "break"
 
 
     def plot(self, signal:List[float], time:List[float], left:float, right:float, true:float, candidates:List[float]):

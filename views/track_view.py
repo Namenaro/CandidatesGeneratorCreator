@@ -43,6 +43,18 @@ class TrackView(tk.Frame):
         self.inner_frame.bind("<Configure>", self._on_frame_configure)
         self.canvas.bind("<Configure>", self._on_canvas_configure)
 
+        # Добавляем метод для доступа из дочерних виджетов
+        self._on_mousewheel_handler = self._on_mousewheel
+
+        # Привязываем обработчики прокрутки
+        self.bind_all("<MouseWheel>", self._on_mousewheel)
+        self.bind_all("<Shift-MouseWheel>", self._on_mousewheel)
+
+    def _on_mousewheel(self, event):
+        """Обработчик прокрутки колесика мыши - только горизонтальная прокрутка"""
+        self.canvas.xview_scroll(-1 * (event.delta // 120), "units")
+        return "break"
+
     def _on_frame_configure(self, event):
         self.canvas.configure(scrollregion=self.canvas.bbox("all"))
 
