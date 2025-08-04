@@ -53,6 +53,8 @@ class Controller:
 
 
 
+
+
     def next_entry(self):
         if self.entry_i >= self.max_i:
             return

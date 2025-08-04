@@ -56,11 +56,22 @@ class Model:
     def reset_entry(self, index_in_dataset:int):
         entry = self.dataset.get_ith_entry(index_in_dataset)
         self.points_dict = entry[POINTS_DATASET_JSON_KEYS.points]
-        self.signal, self.time = self.dataset.get_signal_for_ith_entry(index_in_dataset)
+        self.signal, time = self.dataset.get_signal_for_ith_entry(index_in_dataset)
 
-        self.left_coord = self.points_dict[self.left_name]
-        self.right_coord = self.points_dict[self.right_name]
-        self.target_coord = self.points_dict[self.target_name]
+        # координаты важных точек в полнораземрном сигнале:
+        left_coord = self.points_dict[self.left_name]
+        right_coord = self.points_dict[self.right_name]
+        target_coord = self.points_dict[self.target_name]
+
+        # координаты важных точек в отрезке сигнала:
+        start = time[0]
+        self.left_coord = left_coord - start
+        self.right_coord = right_coord - start
+        self.target_coord = target_coord - start
+
+        self.time = [t - start for t in time]
+
+
 
     def get_left_right_true_coords(self):
         return self.left_coord, self.right_coord, self.target_coord

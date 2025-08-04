@@ -48,14 +48,14 @@ class MultitrackResultView(tk.Frame):
         min_y = min(signal)
         min_y = min_y - 0.1 * abs(min_y)
         plot_lead_signal_to_ax(signal_mV=signal, ax=self.ax, time=time, Y_max=max_y,
-                               Y_min=min_y, color='gray', alpha=0.4, linestyle='--')
+                               Y_min=min_y, color='blue', alpha=0.4, linestyle='--')
 
         # рисуем допустимую область
         self.ax.axvline(left, color='r', linestyle='-', alpha=0.7,  linewidth=0.3)
         self.ax.axvline(right, color='r', linestyle='-', alpha=0.7, linewidth=0.3)
 
         self.ax.axvspan(left, right,
-                   facecolor='r', alpha=0.1,
+                   facecolor='r', alpha=0.05,
                    ymin=0, ymax=1)
 
         # рисуем правильный ответ (где должна реально стоять целевая точка этого мультитрека)
