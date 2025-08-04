@@ -68,7 +68,7 @@ class Controller:
         self.entry_i +=1
         index_in_dataset = self.model.indices[self.entry_i]
         self.model.reset_entry(index_in_dataset)
-        self.main_view.reset_example_info(f"номер запаси {index_in_dataset}")
+        self.main_view.reset_example_info(f"номер записи {index_in_dataset}")
 
 
     def prev_entry(self):
@@ -78,7 +78,7 @@ class Controller:
         self.entry_i -=1
         index_in_dataset = self.model.indices[self.entry_i]
         self.model.reset_entry(index_in_dataset)
-        self.main_view.reset_example_info(f"номер запаси {index_in_dataset}")
+        self.main_view.reset_example_info(f"номер записи {index_in_dataset}")
 
 
 
