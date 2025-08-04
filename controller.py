@@ -1,3 +1,5 @@
+import tkinter as tk
+
 from model import Model
 from views.main_view import MainView
 
@@ -50,6 +52,9 @@ class Controller:
                                               true=true,
                                               candidates_of_tracks=candidates_of_tracks,
                                             tracks_names=tracks_names)
+
+        self.main_view.track_view.text_field.delete(0, tk.END)  # Очистка всего текста
+        self.main_view.track_view.text_field.insert(0, "Трек: " + current_track_name)
 
 
 
