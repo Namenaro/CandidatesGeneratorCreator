@@ -8,3 +8,5 @@ PATH_TO_LUDB_DIAGNOSIS_DICT = "C:\\Users\\User\\Desktop\\Datasets\\LUDB\\diagnos
 
 PATH_TO_FORMS_DATASETS = "C:\\Users\\User\\Desktop\\Datasets\\forms_datasets"
 PATH_TO_MULTITRACKS = "C:\\Users\\User\\Desktop\\Datasets\\multitracks"
+
+PATH_TO_DOCS = str(PROJECT_ROOT)+'\\documentation.txt'

@@ -140,6 +140,7 @@ class MainView(tk.Frame):
         # Здесь будет логика запуска теста
 
     def _on_show_docs(self):
+        from paths import PATH_TO_DOCS
         """Обработчик показа документации в новом окне"""
         doc_window = tk.Toplevel(self.master)
         doc_window.title("Документация")
@@ -155,7 +156,7 @@ class MainView(tk.Frame):
 
         try:
             # Пытаемся загрузить текст из файла
-            with open('../documentation.txt', 'r', encoding='utf-8') as file:
+            with open(PATH_TO_DOCS, 'r', encoding='utf-8') as file:
                 content = file.read()
         except FileNotFoundError:
             content = "Файл документации не найден\nСоздайте файл documentation.txt в корне проекта"
