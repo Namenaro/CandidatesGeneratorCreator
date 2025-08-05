@@ -23,8 +23,8 @@ def create_dammy_task():
     return task
 
 if __name__ == "__main__":
-    #task = create_dammy_task()
-    task = fill_task_manually()
+    task = create_dammy_task()
+    #task = fill_task_manually()
     if task is None:
         exit(1)
 

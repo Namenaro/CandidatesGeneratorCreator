@@ -7,7 +7,7 @@ from views.track_view import TrackView
 
 
 class MainView(tk.Frame):
-    def __init__(self, save_and_run, next_entry, prev_entry, get_steps_types_names, get_step_dict_by_type_name, json_to_redact:str, master=None, **kwargs):
+    def __init__(self, save_and_run, next_entry, prev_entry, get_steps_types_names, get_step_dict_by_type_name, run_test_multitrack, json_to_redact:str,  master=None, **kwargs):
         super().__init__(master, **kwargs)
 
         self.get_steps_types_names = get_steps_types_names
@@ -15,6 +15,7 @@ class MainView(tk.Frame):
         self.save_and_run = save_and_run
         self.next_entry = next_entry
         self.prev_entry = prev_entry
+        self.run_test_multitrack = run_test_multitrack
 
         self.json_to_redact = json_to_redact
 
@@ -127,17 +128,14 @@ class MainView(tk.Frame):
         # Добавляем пункты меню
         file_menu.add_command(
             label="Запустить тест мультитрека",
-            command=self.on_run_test
+            command=self.run_test_multitrack
         )
         file_menu.add_command(
             label="Документация",
             command=self._on_show_docs
         )
 
-    def on_run_test(self):
-        """Обработчик запуска теста мультитрека"""
-        print("Запуск теста мультитрека...")
-        # Здесь будет логика запуска теста
+
 
     def _on_show_docs(self):
         from paths import PATH_TO_DOCS

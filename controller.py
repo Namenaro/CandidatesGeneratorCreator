@@ -1,6 +1,10 @@
 import tkinter as tk
+import easygui
+import json5 as json
 
 from model import Model
+from test_multitrack import TestMultitrack
+from candidates_selection.multitrack import MultiTrack, create_multitrack_from_json
 from views.main_view import MainView
 
 class Controller:
@@ -12,7 +16,8 @@ class Controller:
                                 get_step_dict_by_type_name=self.model.get_step_dict_by_type_name,
                                   save_and_run=self.save_and_run,
                                   next_entry = self.next_entry,
-                                  prev_entry=self.prev_entry)
+                                  prev_entry=self.prev_entry,
+                                  run_test_multitrack=self.run_test_multitrack)
 
         self.main_view.pack(fill="both", expand=True)
         self.main_view.reset_multitrack_info(self.model.multitrack_filename)
@@ -79,6 +84,25 @@ class Controller:
         index_in_dataset = self.model.indices[self.entry_i]
         self.model.reset_entry(index_in_dataset)
         self.main_view.reset_example_info(f"номер записи {index_in_dataset}")
+
+    def run_test_multitrack(self):
+        print("Тестирование мультитрека")
+        with open(self.model.multitrack_filename, 'r') as f:
+            multitrack_data = json.load(f)
+
+        multitrack = create_multitrack_from_json(step_library=self.model.steps_library,
+                                                 data=multitrack_data)
+
+        test = TestMultitrack(multitrack=multitrack,
+                              dataset=self.model.dataset,
+                              left_name=self.model.left_name,
+                              right_name=self.model.right_name,
+                              target_name=self.model.target_name)
+
+        mean_err, mean_num_candidates = test.run()
+        easygui.msgbox(f"средняя ошибка {mean_err}, среднее кол-во кандидатов {mean_num_candidates} ", title="Результат теста")
+
+
 
 
 
