@@ -38,6 +38,7 @@ class TrackEditorView(tk.Frame):
         self.v_scrollbar = ttk.Scrollbar(self.container, orient="vertical", command=self.canvas.yview)
 
         self.scrollable_frame = tk.Frame(self.canvas)
+        self.scrollable_frame.pack(fill="both", expand=True)
 
         # Конфигурация прокрутки
         self.scrollable_frame.bind(
@@ -211,7 +212,7 @@ class TrackEditorView(tk.Frame):
     def _create_step_editor(self, step_num: int, step_data: Dict):
         """Создать редактор для одного шага"""
         step_frame = tk.Frame(self.scrollable_frame, bd=2, relief=tk.GROOVE, padx=5, pady=5)
-        step_frame.pack(fill="x", padx=5, pady=5, ipady=5)
+        step_frame.pack(fill="x", expand=True, padx=5, pady=5, ipady=5)
 
         # Заголовок шага с номером
         header_frame = tk.Frame(step_frame)
@@ -230,7 +231,7 @@ class TrackEditorView(tk.Frame):
             text="Удалить",
             command=lambda: self.delete_step(step_num - 1)
         )
-        delete_btn.pack(side="right")
+        delete_btn.pack(side="left")
 
         # Редактор шага
         editor = StepTextRedactor(step_frame)
@@ -262,10 +263,10 @@ class TrackEditorView(tk.Frame):
             new_editor_frame.pack(
                 in_=self.scrollable_frame,
                 before=self.step_frames[step_num],
-                fill="x", padx=5, pady=5, ipady=5
+                fill="x", padx=5, pady=5, ipady=5, expand=True
             )
         else:
-            new_editor_frame.pack(fill="x", padx=5, pady=5, ipady=5)
+            new_editor_frame.pack(fill="x", padx=5, pady=5, ipady=5, expand=True)
 
         # Заголовок шага
         header_frame = tk.Frame(new_editor_frame)
