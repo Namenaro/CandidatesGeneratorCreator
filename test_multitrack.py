@@ -67,6 +67,9 @@ class TestMultitrack:
             if current_distance < min_distance:
                 min_distance = current_distance
 
+
+
+
         return min_distance
 
 
@@ -77,4 +80,9 @@ class TestMultitrack:
         # вернуть среднюю ошибку лучшего кандидата, среднее количество кандидатов
         mean_err = np.mean(self.errs_list)
         mean_num_of_candidates = np.mean(self.num_candidates)
-        return mean_err, mean_num_of_candidates
+
+        n = 5  #  получить индексы n наибольших элементов (т.е. наибольшая ошибка мультритерка)
+        indices_of_worst = sorted(range(len(self.errs_list)), key=lambda i: self.errs_list[i], reverse=True)[:n]
+        errors_of_worst = [self.errs_list[i] for i in indices_of_worst]
+
+        return mean_err, mean_num_of_candidates, indices_of_worst, errors_of_worst

@@ -99,8 +99,8 @@ class Controller:
                               right_name=self.model.right_name,
                               target_name=self.model.target_name)
 
-        mean_err, mean_num_candidates = test.run()
-        easygui.msgbox(f"средняя ошибка {mean_err}, среднее кол-во кандидатов {mean_num_candidates} ", title="Результат теста")
+        mean_err, mean_num_candidates, indices_of_worst, errors_of_worst = test.run()
+        easygui.msgbox(f"средняя ошибка {mean_err}, среднее кол-во кандидатов {mean_num_candidates}, \n Индексы худших {indices_of_worst}, \n их ошибки {errors_of_worst} ", title="Результат теста")
 
 
 
