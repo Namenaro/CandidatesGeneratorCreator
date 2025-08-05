@@ -4,28 +4,29 @@ from model import Model
 from controller import Controller
 
 from paths import PATH_TO_MULTITRACKS, PATH_TO_FORMS_DATASETS
+from task import Task, fill_task_manually
 
-class Task:
-    def __init__(self, left_name:str, right_name:str, target_name:str):
-        self.multitrack_filename=None
-        self.form_dataset_filename = None
 
-        self.indices_in_dataset = None
-
-        self.left_name = left_name
-        self.right_name = right_name
-        self.target_name = target_name
 
 
 def create_dammy_task():
-    task = Task(left_name = 'p1', right_name = 'p3', target_name = 'p2')
-    task.indices_in_dataset = [0, 1, 2, 3, 4]
-    task.form_dataset_filename = PATH_TO_FORMS_DATASETS + "\\RS_i.json"
-    task.multitrack_filename = PATH_TO_MULTITRACKS +"\\цц.json"
+    indices_in_dataset = [0, 1, 2, 3, 4]
+    form_dataset_filename = PATH_TO_FORMS_DATASETS + "\\RS_i.json"
+    multitrack_filename = PATH_TO_MULTITRACKS +"\\цц.json"
+
+    task = Task(left_name='p1',
+                right_name='p3',
+                target_name='p2',
+                indices_in_dataset=indices_in_dataset,
+                form_dataset_filename=form_dataset_filename,
+                multitrack_filename=multitrack_filename)
     return task
 
 if __name__ == "__main__":
-    task = create_dammy_task()
+    #task = create_dammy_task()
+    task = fill_task_manually()
+    if task is None:
+        exit(1)
 
     model = Model(multitrack_filename=task.multitrack_filename,
                   form_dataset_filename=task.form_dataset_filename,
