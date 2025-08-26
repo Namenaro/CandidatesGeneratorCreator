@@ -48,34 +48,10 @@ class SmoothPreserveBordersMean(Step):
 
         return result
 
-    def get_borders_as_ints(self,left:float, right:float, signal):
-        """
-        Получить границы интервала поиска не в секундах, а как индексы массива сигнала
-        :param left: левая временнАя граница, в секундах
-        :param right:  правая временнАя граница, в секундах
-        :param signal: сигнал, неважно в чем
-        :return:
-        """
-        int_coord_left = int(left * FREQUENCY)
-        int_coord_right = int(right * FREQUENCY)
 
-        # Корректируем left, если он меньше 0
-        if int_coord_left < 0:
-            int_coord_left = 0
-
-        # Корректируем right, если он выходит за границу списка
-        if int_coord_right >= len(signal):
-            int_coord_right = len(signal) - 1
-
-        # Если после корректировки left > right, значит диапазон невалиден
-        if int_coord_left > int_coord_right:
-            int_coord_right = None
-            int_coord_left = None
-
-        return int_coord_left, int_coord_right
 
     def run(self, signal, left:float, right:float):
-        int_coord_left, int_coord_right = self.get_borders_as_ints(left, right=right, signal=signal)
+        int_coord_left, int_coord_right = Step.get_borders_as_ints(left, right=right, signal=signal)
         if int_coord_left is None:
             return signal # ничего не сглаживаем, потому что какая-то проблема с интервалом рассмотрения
 

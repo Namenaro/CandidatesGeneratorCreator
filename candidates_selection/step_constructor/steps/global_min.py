@@ -19,20 +19,10 @@ class GlobalMin(Step):
         :param right:
         :return: координата победителя, [float]
         """
-        int_coord_left = int(left*FREQUENCY)
-        int_coord_right = int(right*FREQUENCY)
+        int_coord_left, int_coord_right = Step.get_borders_as_ints(left, right=right, signal=signal)
+        if int_coord_left is None:
+            return []  # нкакая-то проблема с интервалом рассмотрения
 
-        # Корректируем left, если он меньше 0
-        if int_coord_left < 0:
-            int_coord_left = 0
-
-        # Корректируем right, если он выходит за границу списка
-        if int_coord_right >= len(signal):
-            int_coord_right = len(signal) - 1
-
-        # Если после корректировки left > right, значит диапазон невалиден
-        if int_coord_left > int_coord_right:
-            return []
 
         min_index = int_coord_left
         for i in range(int_coord_left + 1, int_coord_right + 1):
