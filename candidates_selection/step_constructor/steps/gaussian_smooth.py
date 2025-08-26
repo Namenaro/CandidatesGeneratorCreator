@@ -8,7 +8,7 @@ from scipy.ndimage import gaussian_filter1d
 class GaussianSmooth(Step):
     """Сглаживает гауссовым ядром весь сигнал"""
     type_of_step = TYPES_OF_STEP.signal
-    comment = "Фильтрация значений выше порога"
+    comment = "Сглаживает гауссовым ядром весь сигнал"
 
     def __init__(self, sigma: float = 2.5, kernel_size_int:int = 21 ):
         """
