@@ -1,4 +1,4 @@
-from ..step import Step
+from candidates_selection.step_constructor import Step
 from settings import TYPES_OF_STEP
 
 

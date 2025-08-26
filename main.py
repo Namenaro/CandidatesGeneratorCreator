@@ -10,7 +10,7 @@ from task import Task, fill_task_manually
 
 
 def create_dammy_task():
-    indices_in_dataset = [0, 1, 2, 3, 4]
+    indices_in_dataset = [55, 73, 43, 0, 1, 2, 3, 4]
     form_dataset_filename = PATH_TO_FORMS_DATASETS + "\\RS_i.json"
     multitrack_filename = PATH_TO_MULTITRACKS +"\\цц.json"
 
