@@ -1,18 +1,17 @@
-from candidates_selection.step_constructor import Step
-from settings import TYPES_OF_STEP
-
 import numpy as np
 
+from candidates_selection.step_constructor import Step
+from settings import TYPES_OF_STEP
 
 
 class Derivative1_central(Step):
     type_of_step = TYPES_OF_STEP.signal
     comment = ""
 
-    def __init__(self ):
+    def __init__(self):
         pass
 
-    def run(self, signal, left:float, right:float):
+    def run(self, signal, left: float, right: float):
         if len(signal) <= 1:
             return []
 
@@ -25,5 +24,3 @@ class Derivative1_central(Step):
         derivative[-1] = signal[-1] - signal[-2]  # обратная для последнего
 
         return list(derivative)
-
-

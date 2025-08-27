@@ -1,8 +1,7 @@
+from scipy.ndimage import gaussian_filter1d
+
 from candidates_selection.step_constructor import Step
 from settings import TYPES_OF_STEP
-
-import numpy as np
-from scipy.ndimage import gaussian_filter1d
 
 
 class GaussianSmooth(Step):
@@ -10,7 +9,7 @@ class GaussianSmooth(Step):
     type_of_step = TYPES_OF_STEP.signal
     comment = "Сглаживает гауссовым ядром весь сигнал"
 
-    def __init__(self, sigma: float = 2.5, kernel_size_int:int = 21 ):
+    def __init__(self, sigma: float = 2.5, kernel_size_int: int = 21):
         """
 
         :param sigma: Стандартное отклонение гауссова ядра.
@@ -19,7 +18,7 @@ class GaussianSmooth(Step):
         self.sigma = sigma
         self.kernel_size_int = kernel_size_int
 
-    def run(self, signal, left:float, right:float):
+    def run(self, signal, left: float, right: float):
         """
             Сглаживание одномерного сигнала гауссовым фильтром. Сглажывается весь, так что левая и правая границы не учитывются
             """

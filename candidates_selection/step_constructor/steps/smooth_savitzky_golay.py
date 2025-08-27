@@ -1,8 +1,7 @@
+from scipy.signal import savgol_filter
+
 from candidates_selection.step_constructor import Step
 from settings import TYPES_OF_STEP
-
-import numpy as np
-from scipy.signal import savgol_filter
 
 
 class SmoothSavitzkyGolay(Step):
@@ -10,15 +9,15 @@ class SmoothSavitzkyGolay(Step):
     type_of_step = TYPES_OF_STEP.signal
     comment = "Сглаживает методом Савицкого-Голея весь сигнал"
 
-    def __init__(self, kernel_size_int:int = 11,  poly_order=2):
+    def __init__(self, kernel_size_int: int = 11, poly_order=2):
         self.poly_order = poly_order
         self.kernel_size_int = kernel_size_int
 
         if self.kernel_size_int % 2 == 0:
             self.kernel_size_int += 1
 
-    def run(self, signal, left:float, right:float):
-        if len(signal) <=1:
+    def run(self, signal, left: float, right: float):
+        if len(signal) <= 1:
             return []
 
         if len(signal) < self.kernel_size_int:
@@ -31,6 +30,3 @@ class SmoothSavitzkyGolay(Step):
                                         delta=1.0,  # шаг по времени
                                         mode='interp')  # режим обработки границ
         return list(smoothed_signal)
-
-
-

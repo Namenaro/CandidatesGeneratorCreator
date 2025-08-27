@@ -1,8 +1,7 @@
-from candidates_selection.step_constructor import Step
-from settings import TYPES_OF_STEP, FREQUENCY
-
 import numpy as np
-from typing import Optional
+
+from candidates_selection.step_constructor import Step
+from settings import TYPES_OF_STEP
 
 
 class SmoothPreserveBordersMean(Step):
@@ -12,12 +11,11 @@ class SmoothPreserveBordersMean(Step):
     type_of_step = TYPES_OF_STEP.signal
     comment = "скользящим средним сглаживаем сигнал внутри области поиска (а за ней сигнал не трогаем)"
 
-    def __init__(self, window_size_int:int = 5):
+    def __init__(self, window_size_int: int = 5):
         self.window_size_int = window_size_int
 
         if self.window_size_int % 2 == 0:
             self.window_size_int += 1
-
 
     def smooth_gradual(self, data):
         """
@@ -48,15 +46,13 @@ class SmoothPreserveBordersMean(Step):
 
         return result
 
-
-
-    def run(self, signal, left:float, right:float):
-        if len(signal) <=1:
+    def run(self, signal, left: float, right: float):
+        if len(signal) <= 1:
             return []
 
         int_coord_left, int_coord_right = Step.get_borders_as_ints(left, right=right, signal=signal)
         if int_coord_left is None:
-            return signal # ничего не сглаживаем, потому что какая-то проблема с интервалом рассмотрения
+            return signal  # ничего не сглаживаем, потому что какая-то проблема с интервалом рассмотрения
 
         # Создаем копию сигнала
         result = np.copy(signal)
@@ -64,7 +60,7 @@ class SmoothPreserveBordersMean(Step):
         # Извлекаем фрагмент для сглаживания
         fragment = signal[int_coord_left:int_coord_right + 1]
 
-        if len(fragment)>self.window_size_int:
+        if len(fragment) > self.window_size_int:
             self.window_size_int = len(fragment)
 
         # Сглаживаем фрагмент
@@ -74,6 +70,3 @@ class SmoothPreserveBordersMean(Step):
         result[int_coord_left:int_coord_right + 1] = smoothed_fragment
 
         return list(result)
-
-
-
