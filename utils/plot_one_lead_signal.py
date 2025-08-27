@@ -79,9 +79,9 @@ def plot_lead_signal_to_ax(signal_mV, ax, Y_max=None, Y_min=None, time=None, col
             linestyle=linestyle,  # Сплошная линия или нет
             linewidth=SIGNAL_LINEWIDTH,  # Толщина линии
             alpha=alpha,
-            color=color
-            # marker='o',  # Маркеры в виде кружков
-            # markersize=line_width +0.1,  # Размер маркеров (диаметр кружков)
+            color=color,
+             marker='o',  # Маркеры в виде кружков
+             markersize=1.1  # Размер маркеров (диаметр кружков)
             # markerfacecolor='black',  # Цвет заливки маркеров
             # markeredgecolor='black',  # Цвет границы маркеров
             # markeredgewidth=0  # Толщина границы маркеров (0 — без границы))

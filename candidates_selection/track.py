@@ -38,7 +38,7 @@ class Track:
         if self.steps_list[-1].type_of_step is not TYPES_OF_STEP.candidates:
             raise RuntimeError("Последний шаг трека обязан возвращать координаты кандидатов")
 
-        self.candidates_coords = self.steps_list[-1].run(signal, left, right)
+        self.candidates_coords = self.steps_list[-1].run(prev_signal, left, right)
 
 
 

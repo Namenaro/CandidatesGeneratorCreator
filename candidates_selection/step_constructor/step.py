@@ -20,8 +20,8 @@ class Step:
         :param signal: сигнал, неважно в чем
         :return:
         """
-        int_coord_left = int(left * FREQUENCY)
-        int_coord_right = int(right * FREQUENCY)
+        int_coord_left = round(left * FREQUENCY)
+        int_coord_right = round(right * FREQUENCY)
 
         # Корректируем left, если он меньше 0
         if int_coord_left < 0:

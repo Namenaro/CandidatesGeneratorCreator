@@ -23,8 +23,17 @@ class GaussianSmooth(Step):
         """
             Сглаживание одномерного сигнала гауссовым фильтром. Сглажывается весь, так что левая и правая границы не учитывются
             """
+        if len(signal) <= 1:
+            return []
+
+        if len(signal) < self.kernel_size_int:
+            self.kernel_size_int = len(signal)
+
         if self.kernel_size_int % 2 == 0:
             self.kernel_size_int += 1
 
         truncate_value = (self.kernel_size_int - 1) / (2 * self.sigma)
-        return gaussian_filter1d(signal, sigma=self.sigma, truncate=truncate_value)
+        smoothed = list(gaussian_filter1d(signal, sigma=self.sigma, truncate=truncate_value))
+
+        assert len(smoothed) == len(signal)
+        return smoothed

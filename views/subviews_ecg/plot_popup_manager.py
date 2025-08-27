@@ -56,7 +56,9 @@ class PlotPopupManager:
                                color=line.get_color(),
                                linestyle=line.get_linestyle(),
                                linewidth=line.get_linewidth(),
-                               label=line.get_label())
+                               label=line.get_label(),
+                               marker=line.get_marker(),
+                               markersize = line.get_markersize())
 
         # Для вертикальных/горизонтальных линий (axvline/axhline):
         for line in source_ax.lines:

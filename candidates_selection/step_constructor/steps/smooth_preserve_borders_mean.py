@@ -51,6 +51,9 @@ class SmoothPreserveBordersMean(Step):
 
 
     def run(self, signal, left:float, right:float):
+        if len(signal) <=1:
+            return []
+
         int_coord_left, int_coord_right = Step.get_borders_as_ints(left, right=right, signal=signal)
         if int_coord_left is None:
             return signal # ничего не сглаживаем, потому что какая-то проблема с интервалом рассмотрения
@@ -60,6 +63,9 @@ class SmoothPreserveBordersMean(Step):
 
         # Извлекаем фрагмент для сглаживания
         fragment = signal[int_coord_left:int_coord_right + 1]
+
+        if len(fragment)>self.window_size_int:
+            self.window_size_int = len(fragment)
 
         # Сглаживаем фрагмент
         smoothed_fragment = self.smooth_gradual(fragment)

@@ -18,6 +18,11 @@ class SmoothSavitzkyGolay(Step):
             self.kernel_size_int += 1
 
     def run(self, signal, left:float, right:float):
+        if len(signal) <=1:
+            return []
+
+        if len(signal) < self.kernel_size_int:
+            self.kernel_size_int = len(signal)
         # Применяем фильтр Савицкого-Голея
         smoothed_signal = savgol_filter(signal,
                                         window_length=self.kernel_size_int,  # размер окна
