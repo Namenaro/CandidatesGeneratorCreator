@@ -19,7 +19,7 @@ class Derivative1_central(Step):
         signal = np.asarray(signal, dtype=float)
         derivative = np.zeros_like(signal)
 
-        # Центральная разность f'(x) ≈ (f(x+h) - f(x-h)) / (2h)    при h = 1
+        # Берет f'(x) ≈ (f(x+h) - f(x-h)) / (2h)    при h = 1
         derivative[1:-1] = (signal[2:] - signal[:-2]) / 2
         derivative[0] = signal[1] - signal[0]  # прямая разность для первого элемента
         derivative[-1] = signal[-1] - signal[-2]  # обратная для последнего
