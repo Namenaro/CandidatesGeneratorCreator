@@ -1,0 +1,28 @@
+{
+    "gauss_simple": [
+        {
+            "step_class": "GaussianSmooth",
+            "step_args": {
+                "sigma": 10.5,
+                "kernel_size_int": 21
+            }
+        },
+        {
+            "step_class": "GlobalMax",
+            "step_args": {}
+        }
+    ],
+    "new track": [
+        {
+            "step_class": "GaussianSmooth",
+            "step_args": {
+                "sigma": 8.5,
+                "kernel_size_int": 11
+            }
+        },
+        {
+            "step_class": "GlobalMax",
+            "step_args": {}
+        }
+    ]
+}

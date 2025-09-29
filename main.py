@@ -7,12 +7,10 @@ from paths import PATH_TO_MULTITRACKS, PATH_TO_FORMS_DATASETS
 from task import Task, fill_task_manually
 
 
-
-
 def create_dammy_task():
-    indices_in_dataset = [55, 73, 43, 0, 1, 2, 3, 4]
-    form_dataset_filename = PATH_TO_FORMS_DATASETS + "\\RS_i.json"
-    multitrack_filename = PATH_TO_MULTITRACKS +"\\цц.json"
+    indices_in_dataset = [1,2,3]
+    form_dataset_filename = PATH_TO_FORMS_DATASETS + "\\p_simpmle_i.json"
+    multitrack_filename = PATH_TO_MULTITRACKS +"\\for_form_T.json"
 
     task = Task(left_name='p1',
                 right_name='p3',
@@ -23,8 +21,8 @@ def create_dammy_task():
     return task
 
 if __name__ == "__main__":
-    task = create_dammy_task()
-    #task = fill_task_manually()
+    #task = create_dammy_task()
+    task = fill_task_manually()
     if task is None:
         exit(1)
 
@@ -44,8 +42,6 @@ if __name__ == "__main__":
     screen_height = root.winfo_screenheight()
     root.geometry(f"{screen_width - 100}x{screen_height - 100}+0+0")
     root.state('zoomed')
-
-
 
     controller = Controller(model, root)
     root.mainloop()
